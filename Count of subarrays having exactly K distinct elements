@@ -1,0 +1,31 @@
+https://leetcode.com/problems/subarrays-with-k-different-integers/
+
+
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& A, int K) {
+        int left1 = 0, left2 = 0, res = 0;
+        unordered_map<int, int> counter1, counter2;
+        int nonzero1 = 0, nonzero2 = 0;
+        for(int j = 0; j < A.size(); ++ j){
+            if(counter1[A[j]] == 0) nonzero1 ++;
+            if(counter2[A[j]] == 0) nonzero2 ++;
+            counter1[A[j]] ++;
+            counter2[A[j]] ++;
+            
+            while(nonzero1 > K){
+                counter1[A[left1]] --;
+                if(counter1[A[left1]] == 0) nonzero1 --;
+                left1 ++;
+            }
+            
+            while(nonzero2 >= K){
+                counter2[A[left2]] --;
+                if(counter2[A[left2]] == 0) nonzero2 --;
+                left2 ++;
+            }
+            res += left2 - left1;
+        }
+        return res;
+    }
+};
